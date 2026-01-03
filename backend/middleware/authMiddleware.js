@@ -15,7 +15,10 @@ exports.protect = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "DAYFLOW_SECRET");
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "DAYFLOW_SECRET"
+    );
     req.user = decoded; // { id, role }
     next();
   } catch (error) {

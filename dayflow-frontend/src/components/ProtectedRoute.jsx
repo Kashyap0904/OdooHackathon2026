@@ -6,7 +6,13 @@ export default function ProtectedRoute({ children, role }) {
 
   if (!token) return <Navigate to="/" />;
 
-  if (role && userRole !== role) return <Navigate to="/" />;
+  if (role && userRole !== role) {
+    // Allow HR_OFFICER to access admin routes
+    if (role === "ADMIN" && userRole === "HR_OFFICER") {
+      return children;
+    }
+    return <Navigate to="/" />;
+  }
 
   return children;
 }
